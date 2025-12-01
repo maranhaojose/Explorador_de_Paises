@@ -1,145 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Explorador de Países</title>
+    <link rel="icon" href="/img/logo.png">
     <link rel="stylesheet" href="css/style.css">
-    <head>
-  <link rel="stylesheet" href="cdnjs.cloudflare.com" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-
-</head>
-
 <body>
-
     <header>
         <div class="container">
-            <h2>🌍 Explore World</h2>
+            <h2>Explor o Mundo</h2>
             <nav>
-                <a href="#" id="btn-favoritos">❤️</a>
-                <p>favoritos</p>
+                <a href="#" id="btn-favoritos">Favoritos (<span id="fav-count">0</span>)</a>
             </nav>
         </div>
     </header>
 
-    <section class="filter">
+    <section class="filter container">
         <input type="text" id="search-input" placeholder="Buscar por nome...">
+        <button id="search-btn" aria-label="Pesquisar"><img src="img/lupa.png" alt="Pesquisar" /></button>
 
         <select id="region-filter">
             <option value="">Filtrar por Região</option>
             <option value="Africa">África</option>
             <option value="Americas">Américas</option>
+            <option value="Antarctic">Antártica</option>
             <option value="Asia">Ásia</option>
             <option value="Europe">Europa</option>
             <option value="Oceania">Oceania</option>
         </select>
     </section>
 
-    <div id="loading" class="hidden">Carregando países...</div>
+    <div id="loading" class="hidden">
+        <div class="spinner"></div>
+        <p>Carregando...</p>
+    </div>
 
-    <main id="countries-container" class="grid">
-        <div id="card" class="card hidden">
-            <div class="card-content">
-                <span id="close-card" class="close">&times;</span>
-                <div id="card-body" class="card-body">
-                    <img src="img/download.png" alt="">
-                    <div>
-                        <h1>Brasil</h1>
-                        <p>População: 200 milhões</p>
-                        <p>Região: Americas</p>
-                        <p>Capital: brasilia</p>
-                    </div>
-                    <h4>❤️</h4>
-                </div>
-            </div>
-        </div>
-        <div id="card" class="card hidden">
-            <div class="card-content">
-                <span id="close-card" class="close">&times;</span>
-                <div id="card-body" class="card-body">
-                    <img src="img/download.png" alt="">
-                    <div>
-                        <h1>Brasil</h1>
-                        <p>População: 200 milhões</p>
-                        <p>Região: Americas</p>
-                        <p>Capital: brasilia</p>
-                    </div>
-                    <h4>❤️</h4>
-                </div>
-            </div>
-        </div>
-        <div id="card" class="card hidden">
-            <div class="card-content">
-                <span id="close-card" class="close">&times;</span>
-                <div id="card-body" class="card-body">
-                    <img src="img/download.png" alt="">
-                    <div>
-                        <h1>Brasil</h1>
-                        <p>População: 200 milhões</p>
-                        <p>Região: Americas</p>
-                        <p>Capital: brasilia</p>
-                    </div>
-                    <h4>❤️</h4>
-                </div>
-            </div>
-        </div>
-        <div id="card" class="card hidden">
-            <div class="card-content">
-                <span id="close-card" class="close">&times;</span>
-                <div id="card-body" class="card-body">
-                    <img src="img/download.png" alt="">
-                    <div>
-                        <h1>Brasil</h1>
-                        <p>População: 200 milhões</p>
-                        <p>Região: Americas</p>
-                        <p>Capital: brasilia</p>
-                    </div>
-                    <h4>❤️</h4>
-                </div>
-            </div>
-        </div>
-        <div id="card" class="card hidden">
-            <div class="card-content">
-                <span id="close-card" class="close">&times;</span>
-                <div id="card-body" class="card-body">
-                    <img src="img/download.png" alt="">
-                    <div>
-                        <h1>Brasil</h1>
-                        <p>População: 200 milhões</p>
-                        <p>Região: Americas</p>
-                        <p>Capital: brasilia</p>
-                    </div>
-                    <h4>❤️</h4>
-                </div>
-            </div>
-        </div>
-        <div id="card" class="card hidden">
-            <div class="card-content">
-                <span id="close-card" class="close">&times;</span>
-                <div id="card-body" class="card-body">
-                    <img src="img/download.png" alt="">
-                    <div>
-                        <h1>Brasil</h1>
-                        <p>População: 200 milhões</p>
-                        <p>Região: Americas</p>
-                        <p>Capital: brasilia</p>
-                    </div>
-                    <h4>❤️</h4>
-                </div>
-            </div>
-        </div>
-      
-    </main>
-
+    <main id="countries-container" class="grid container"></main>
 
     <footer>
-        <p>Desenvolvido por: Denis do Nascimento Rodrigues & José Maranhão da Silva Neto</p>
+        <p>Desenvolvido por: Denis do Nascimento Rodrigues & José Maranhão da Silva Neto -- UESPI • 2025</p>
     </footer>
 
-    <script src="js/api.js"></script>
-    <script src="js/app.js"></script>
-</body>
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-modal" class="close-btn">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
 
+    <script type="module" src="js/app.js"></script>
+</body>
 </html>
