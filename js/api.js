@@ -10,7 +10,7 @@ const handleResponse = async (response) => {
 
 export const getAllCountries = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/all`);
+        const response = await fetch(`${BASE_URL}/all?fields=name,flags,population,region,capital,currencies,borders,maps`);
         return await handleResponse(response);
     } catch (error) {
         console.error("Falha ao buscar todos os países:", error);

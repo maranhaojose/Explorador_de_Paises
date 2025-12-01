@@ -1,5 +1,6 @@
 import { getAllCountries, getCountryByName, getCountriesByRegion } from './api.js';
 
+const logoBtn = document.querySelector('.logo');
 const countriesContainer = document.getElementById('countries-container');
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
@@ -25,9 +26,9 @@ const shuffleArray = (arr) => {
 };
 
 const createCountryCard = (country) => {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const isFav = favorites.includes(country.name.common);
-    const heart = isFav ? '❤️' : '🤍';
+    // Verifica se já é favorito
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let isFav = favorites.includes(country.name.common);
 
     const div = document.createElement('div');
     div.classList.add('country-card');
@@ -39,27 +40,36 @@ const createCountryCard = (country) => {
             <p><strong>População:</strong> ${country.population ? country.population.toLocaleString('pt-BR') : 'N/A'}</p>
             <p><strong>Região:</strong> ${country.region || 'N/A'}</p>
             <p><strong>Capital:</strong> ${country.capital ? country.capital[0] : 'N/A'}</p>
-            <button class="fav-btn" data-name="${country.name.common}" title="Adicionar/Remover favorito">${heart}</button>
+            <button class="fav-btn" title="Favoritar">${isFav ? '❤️' : '🤍'}</button>
         </div>
     `;
 
-    // Favoritar
+    // Lógica do Clique (CORRIGIDA)
     const favBtn = div.querySelector('.fav-btn');
     favBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
+        e.stopPropagation(); // Impede de abrir o modal
+
+        // 1. Atualiza o localStorage
         toggleFavorite(country.name.common);
+
+        // 2. Verifica o novo estado
+        favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        isFav = favorites.includes(country.name.common);
+
+        // 3. Atualiza SOMENTE o ícone deste botão (sem recarregar a lista)
+        favBtn.innerText = isFav ? '❤️' : '🤍';
+
+        // 4. Se estivermos VENDO a lista de favoritos, aí sim precisamos remover o item da tela
         if (currentView === 'favorites') {
-            renderFavorites();
-        } else if (currentView === 'home') {
-            renderRandomCountries();
-        } else if (currentView === 'region') {
-
-            regionFilter.dispatchEvent(new Event('change'));
-        } else {
-            renderCountries(allCountriesData);
+            // Remove o card da tela suavemente
+            div.remove();
+            // Se não sobrar nenhum, mostra mensagem
+            if (favorites.length === 0) renderFavorites();
         }
-    });
 
+        // 5. Atualiza o número no header
+        updateFavCount();
+    });
 
     div.addEventListener('click', () => {
         openModalWithCountry(country);
@@ -126,7 +136,7 @@ const renderFavorites = async () => {
             if (res && Array.isArray(res) && res[0]) favCountries.push(res[0]);
         });
     }
-
+    
     renderCountries(favCountries);
     hideLoading();
     currentView = 'favorites';
@@ -156,16 +166,39 @@ const modalBody = document.getElementById('modal-body');
 const closeModalBtn = document.getElementById('close-modal');
 
 const openModalWithCountry = (country) => {
+
+    let currencies = 'N/A';
+    if (country.currencies) {
+        currencies = Object.values(country.currencies)
+            .map(c => `${c.name} (${c.symbol || '$'})`)
+            .join(', ');
+    }
+
+    const borders = country.borders && country.borders.length > 0
+        ? country.borders.join(', ')
+        : 'Não faz fronteira';
+
+    // 3. Link do Mapa
+    const mapLink = country.maps?.googleMaps || country.maps?.openStreetMaps || '#';
+
     modalBody.innerHTML = `
         <h2>${country.name.common}</h2>
-        <img src="${country.flags?.svg || country.flags?.png || ''}" alt="Bandeira" style="width:100%;max-width:300px"/>
-        <p><strong>Nome oficial:</strong> ${country.name?.official || 'N/A'}</p>
-        <p><strong>População:</strong> ${country.population ? country.population.toLocaleString('pt-BR') : 'N/A'}</p>
-        <p><strong>Região:</strong> ${country.region || 'N/A'}</p>
-        <p><strong>Capital:</strong> ${country.capital ? country.capital[0] : 'N/A'}</p>
+        <img src="${country.flags?.svg || country.flags?.png || ''}" alt="Bandeira" class="modal-flag">
+        
+        <div class="modal-details">
+            <p><strong>Nome oficial:</strong> ${country.name?.official || 'N/A'}</p>
+            <p><strong>População:</strong> ${country.population ? country.population.toLocaleString('pt-BR') : 'N/A'}</p>
+            <p><strong>Região:</strong> ${country.region || 'N/A'}</p>
+            <p><strong>Capital:</strong> ${country.capital ? country.capital[0] : 'N/A'}</p>
+            <p><strong>Moeda:</strong> ${currencies}</p>
+            <p><strong>Fronteiras:</strong> ${borders}</p>
+        </div>
+        <a href="${mapLink}" target="_blank" class="map-btn">Ver Mapa</a>
     `;
     modal.classList.remove('hidden');
 };
+
+
 closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
 modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
 
@@ -216,5 +249,16 @@ const init = async () => {
     updateFavCount();
     hideLoading();
 };
+
+const resetApp = () => {
+    searchInput.value = '';
+    regionFilter.value = '';
+
+    currentView = 'home';
+
+    renderRandomCountries();
+};
+
+logoBtn.addEventListener('click', resetApp);
 
 init();

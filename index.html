@@ -4,23 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Explorador de Países</title>
-    <link rel="icon" href="/img/logo.png">
+    <link rel="icon" href="img/logo.png">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <img src="/img/logo.png" class="logo" alt="">
-            <h2>Explor o Mundo</h2>
+            <img src="img/logo.png" class="logo" alt="">
+            <h2>Explore World</h2>
             <nav>
-                <a href="#" id="btn-favoritos">Favoritos <span id="fav-count">0</span></a>
+                <a href="#" class="favorites" id="btn-favoritos"> <strong>Favoritos</strong> <span id="fav-count">0</span></a>
             </nav>
         </div>
     </header>
 
     <section class="filter container">
+        <div class="input">
         <input type="text" id="search-input" placeholder="Buscar por nome...">
         <button id="search-btn" aria-label="Pesquisar"><img src="img/lupa.png" alt="Pesquisar" /></button>
+        </div>
 
         <select id="region-filter">
             <option value="">Filtrar por Região</option>
