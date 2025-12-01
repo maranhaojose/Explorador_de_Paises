@@ -18,6 +18,13 @@ body {
     padding: 0 20px;
 }
 
+.logo {
+    width: 100px;
+    height: auto;
+    position: relative;
+    left: 20px;
+}
+
 /* Header */
 header {
     background-color: var(--element-color);
