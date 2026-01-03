@@ -7,7 +7,8 @@
 
 body {
     font-family: 'Nunito Sans', sans-serif;
-    background-color: rgba(157, 222, 248, 0.562);
+    /* background-color: rgba(157, 222, 248, 0.562); */
+    background-color: #686868;
     color: var(--text-color);
     margin: 0;
 }
@@ -19,6 +20,10 @@ body {
     padding: 0 20px;
 }
 
+.container h2 {
+    color: white;
+}
+
 .logo {
     width: 100px;
     height: auto;
@@ -28,7 +33,8 @@ body {
 
 /* Header */
 header {
-    background-color: rgb(157, 222, 248);
+    /* background-color: rgb(157, 222, 248); */
+    background-color: #282828;
     box-shadow: var(--shadow);
     padding: 20px 0;
     margin-bottom: 40px;
